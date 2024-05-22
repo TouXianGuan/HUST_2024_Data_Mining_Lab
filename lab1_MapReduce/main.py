@@ -3,7 +3,8 @@ import threading
 from map import create_map_threads
 
 words_set = set(open('../source_data/words.txt', 'r').read().split())
-map_threads = create_map_threads(words_set)
+output_file = 'map_output.txt'
+map_threads = create_map_threads(words_set, output_file)
 for t in map_threads:
     t.join()
 
