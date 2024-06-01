@@ -11,13 +11,12 @@ def extract_words_from_file(file_path):
         return words
 
 def mapper(folder_index, words_set):
-    word_counts = defaultdict(int)
     folder_path = os.path.join('../data', f'folder_{folder_index}')
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)
         if os.path.isfile(file_path):
             content = extract_words_from_file(file_path)
-            output_file = os.path.join('../tmp/map_output', f'map_{folder_index}.txt')
+            output_file = os.path.join('../tmp/map_output', f'map_{folder_index}')
             with open(output_file, 'a', encoding='utf-8') as output:
                 for word in content:
                     if word in words_set:
