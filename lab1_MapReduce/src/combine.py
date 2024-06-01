@@ -11,19 +11,19 @@ def combiner(folder_index):
 
     for line in map_output:
         line = line.strip()
-        word, count = line.split(',', 1)
+        title, word, count = line.split(',')
         try:
             count = int(count)
         except ValueError:
             continue
-        if word in count_dict.keys():
-            count_dict[word] += count
+        if (title, word) in count_dict.keys():
+            count_dict[(title, word)] += count
         else:
-            count_dict[word] = count
+            count_dict[(title, word)] = count
     
     count_dict = sorted(count_dict.items(), key=lambda x: x[0], reverse=False)
-    for k, v in count_dict:
-        combine_output.write("{},{}\n".format(k, v))
+    for (title, word), count in count_dict:
+        combine_output.write("{},{},{}\n".format(title, word, count))
 
     map_output.close()
     combine_output.close()

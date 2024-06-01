@@ -23,14 +23,14 @@ def shuffler(folder_index):
 
     for line in combine_output:
         line = line.strip()
-        word, count = line.split(',', 1)
+        title, word, count = line.split(',')
         idx = word_grouping(word[0])
         if idx == 1:
-            shuffle_output1.write("{},{}\n".format(word, count))
+            shuffle_output1.write("{},{},{}\n".format(title, word, count))
         elif idx == 2:
-            shuffle_output2.write("{},{}\n".format(word, count))
+            shuffle_output2.write("{},{},{}\n".format(title, word, count))
         else:
-            shuffle_output3.write("{},{}\n".format(word, count))
+            shuffle_output3.write("{},{},{}\n".format(title, word, count))
     
     combine_output.close()
     shuffle_output1.close()

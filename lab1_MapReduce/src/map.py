@@ -12,6 +12,7 @@ def extract_words_from_file(file_path):
 def mapper(folder_index, words_set):
     folder_path = os.path.join('../data', f'folder_{folder_index}')
     for filename in os.listdir(folder_path):
+        title = filename.rstrip(".txt")
         file_path = os.path.join(folder_path, filename)
         if os.path.isfile(file_path):
             content = extract_words_from_file(file_path)
@@ -19,7 +20,7 @@ def mapper(folder_index, words_set):
             with open(output_file, 'a', encoding='utf-8') as output:
                 for word in content:
                     if word in words_set:
-                        output.write("{},{}\n".format(word, 1))        
+                        output.write("{},{},{}\n".format(title, word, 1))        
 
 def create_map_threads(words_set):
     threads = []
