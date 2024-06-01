@@ -5,7 +5,6 @@ from map import create_map_threads
 from combine import create_combine_threads
 from shuffle import create_shuffle_threads
 from reduce import reduce_start
-from result import result
 
 if __name__ == "__main__":
     start_time = time.time()
