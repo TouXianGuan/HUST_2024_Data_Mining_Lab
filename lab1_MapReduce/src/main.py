@@ -5,6 +5,7 @@ from map import create_map_threads
 from combine import create_combine_threads
 from shuffle import create_shuffle_threads
 from reduce import create_reduce_threads
+from result import result
 
 if __name__ == "__main__":
     start_time = time.time()
@@ -41,6 +42,8 @@ if __name__ == "__main__":
         t.join()
     reduce_finish_time = time.time()
     print("reduce time: %.3f s." % (reduce_finish_time - shuffle_finish_time))
+
+    result()
 
     finish_time = time.time()
     print("MapReduce time: %.3f s." % (finish_time - start_time))
