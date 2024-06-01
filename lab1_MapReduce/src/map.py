@@ -10,7 +10,7 @@ def extract_words_from_file(file_path):
         words = re.findall(r'\b[a-zA-Z]+\b', content)
         return words
 
-def map_function(folder_index, words_set):
+def mapper(folder_index, words_set):
     word_counts = defaultdict(int)
     folder_path = os.path.join('../data', f'folder_{folder_index}')
     for filename in os.listdir(folder_path):
@@ -26,7 +26,7 @@ def map_function(folder_index, words_set):
 def create_map_threads(words_set):
     threads = []
     for i in range(1, 10):
-        t = threading.Thread(target=map_function, args=(i, words_set))
+        t = threading.Thread(target=mapper, args=(i, words_set))
         threads.append(t)
         t.start()
     return threads
