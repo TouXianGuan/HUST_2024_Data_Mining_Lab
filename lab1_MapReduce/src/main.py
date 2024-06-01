@@ -4,7 +4,7 @@ import shutil
 from map import create_map_threads
 from combine import create_combine_threads
 from shuffle import create_shuffle_threads
-from reduce import create_reduce_threads
+from reduce import reduce_start
 from result import result
 
 if __name__ == "__main__":
@@ -17,6 +17,10 @@ if __name__ == "__main__":
     os.makedirs('../tmp/combine_output')
     os.makedirs('../tmp/shuffle_output')
     os.makedirs('../tmp/reduce_output')
+    if os.path.exists('../result'):
+        shutil.rmtree('../result')
+    os.makedirs('../result')
+
     words_set = set(open('../data/words.txt', 'r').read().split())
 
     map_threads = create_map_threads(words_set)
@@ -37,6 +41,8 @@ if __name__ == "__main__":
     shuffle_finish_time = time.time()
     print("shuffle time: %.3f s." % (shuffle_finish_time - combine_finish_time))
 
+
+    reduce_start()
     '''reduce_threads = create_reduce_threads()
     for t in reduce_threads:
         t.join()

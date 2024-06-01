@@ -1,32 +1,25 @@
 import os
 import threading
+from collections import defaultdict
+from heapq import nlargest
+
+result = defaultdict(lambda: [0, {}])
+
 
 def reducer(folder_index):
     shuffle_output_path = os.path.join('../tmp/shuffle_output', f'shuffle_{folder_index}')
     shuffle_output = open(shuffle_output_path, 'r', encoding='utf-8')
 
-    reduce_output_path = os.path.join('../tmp/reduce_output', f'reduce_{folder_index}')
-    reduce_output = open(reduce_output_path, 'w', encoding='utf-8')
-    count_dict = {}
-
     for line in shuffle_output:
         line = line.strip()
-        word, count = line.split(',', 1)
+        title, word, count = line.split(',')
         try:
             count = int(count)
         except ValueError:
             continue
-        if word in count_dict.keys():
-            count_dict[word] += count
-        else:
-            count_dict[word] = count
-    
-    count_dict = sorted(count_dict.items(), key=lambda x: x[0], reverse=False)
-    for k, v in count_dict:
-        reduce_output.write("{},{}\n".format(k, v))
-
+        result[word][0] += count
+        result[word][1][title] = result[word][1].get(title, 0) + count
     shuffle_output.close()
-    reduce_output.close()
 
 def create_reduce_threads():
     threads = []
@@ -35,3 +28,17 @@ def create_reduce_threads():
         threads.append(t)
         t.start()
     return threads
+
+def reduce_start():
+    reduce_threads = create_reduce_threads()
+    for t in reduce_threads:
+        t.join()
+    
+    reduce_data = [(word, titles, total_count) for word, (total_count, titles) in result.items()]
+    reduce_output = open('../tmp/reduce_output/reduce', 'w', encoding='utf-8')    
+    for word, (total_count, titles) in result.items():
+        reduce_output.write(f"{word}, ({', '.join(titles.keys())}), {total_count}\n")
+    top_1000 = nlargest(1000, reduce_data, key=lambda x: x[2])
+    with open('../result/result.csv', 'w') as output_file:
+        for word, titles, count in top_1000:
+            output_file.write(f"{word}, ({', '.join(titles.keys())}), {count}\n")
