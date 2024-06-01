@@ -1,14 +1,21 @@
 import os
 import time
-import threading
+import shutil
 from map import create_map_threads
 from combine import create_combine_threads
-from shuffle import shuffle_function
-from reduce import reduce_function, output_results
+from shuffle import create_shuffle_threads
+from reduce import create_reduce_threads
 
 if __name__ == "__main__":
     start_time = time.time()
-
+    
+    if os.path.exists('../tmp'):
+        shutil.rmtree('../tmp')
+    os.makedirs('../tmp')
+    os.makedirs('../tmp/map_output')
+    os.makedirs('../tmp/combine_output')
+    os.makedirs('../tmp/shuffle_output')
+    os.makedirs('../tmp/reduce_output')
     words_set = set(open('../data/words.txt', 'r').read().split())
 
     map_threads = create_map_threads(words_set)
@@ -23,5 +30,17 @@ if __name__ == "__main__":
     combine_finish_time = time.time()
     print("combine time: %.3f s." % (combine_finish_time - map_finish_time))
     
+    shuffle_threads = create_shuffle_threads()
+    for t in shuffle_threads:
+        t.join()
+    shuffle_finish_time = time.time()
+    print("shuffle time: %.3f s." % (shuffle_finish_time - combine_finish_time))
+
+    reduce_threads = create_reduce_threads()
+    for t in reduce_threads:
+        t.join()
+    reduce_finish_time = time.time()
+    print("reduce time: %.3f s." % (reduce_finish_time - shuffle_finish_time))
+
     finish_time = time.time()
     print("MapReduce time: %.3f s." % (finish_time - start_time))

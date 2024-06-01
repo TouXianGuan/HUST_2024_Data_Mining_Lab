@@ -1,6 +1,5 @@
 import os
 import threading
-from collections import defaultdict
 
 def combiner(folder_index):
     map_output_path = os.path.join('../tmp/map_output', f'map_{folder_index}')
