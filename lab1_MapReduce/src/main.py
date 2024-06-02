@@ -40,15 +40,10 @@ if __name__ == "__main__":
     shuffle_finish_time = time.time()
     print("shuffle time: %.3f s." % (shuffle_finish_time - combine_finish_time))
 
-
     reduce_start()
-    '''reduce_threads = create_reduce_threads()
-    for t in reduce_threads:
-        t.join()
     reduce_finish_time = time.time()
     print("reduce time: %.3f s." % (reduce_finish_time - shuffle_finish_time))
 
-    result()'''
 
     finish_time = time.time()
     print("MapReduce time: %.3f s." % (finish_time - start_time))

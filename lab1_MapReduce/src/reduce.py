@@ -1,10 +1,8 @@
 import os
 import threading
 from collections import defaultdict
-from heapq import nlargest
 
 result = defaultdict(lambda: [0, {}])
-
 
 def reducer(folder_index):
     shuffle_output_path = os.path.join('../tmp/shuffle_output', f'shuffle_{folder_index}')
@@ -34,11 +32,21 @@ def reduce_start():
     for t in reduce_threads:
         t.join()
     
-    reduce_data = [(word, titles, total_count) for word, (total_count, titles) in result.items()]
     reduce_output = open('../tmp/reduce_output/reduce', 'w', encoding='utf-8')    
     for word, (total_count, titles) in result.items():
         reduce_output.write(f"{word}, ({', '.join(titles.keys())}), {total_count}\n")
-    top_1000 = nlargest(1000, reduce_data, key=lambda x: x[2])
-    with open('../result/result.csv', 'w') as output_file:
-        for word, titles, count in top_1000:
-            output_file.write(f"{word}, ({', '.join(titles.keys())}), {count}\n")
+
+    word_counts = [(word, count) for word, (count, titles) in result.items()]
+    word_counts.sort(key=lambda x: x[1], reverse=True)
+    top_1000_words = [word for word, count in word_counts[:1000]]
+
+    top_1000 = defaultdict(lambda: [{},0])
+    for word, (count, titles) in result.items():
+        if word in top_1000_words:
+            titles_list = list(titles.keys()) if isinstance(titles, dict) else titles
+            top_1000[word] = ([title for title in titles_list if title in top_1000_words], count)
+
+    sorted_top_1000 = sorted(top_1000.items(), key=lambda x: x[1][1], reverse=True)
+    result_file = open('../result/result', 'w', encoding='utf-8')    
+    for word, (titles, count) in sorted_top_1000:
+        result_file.write(f"{word}, ({', '.join(titles)}), {count}\n")

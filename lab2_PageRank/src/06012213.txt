@@ -1,0 +1,45 @@
+import csv
+import numpy as np
+
+# 读取CSV文件
+def read_csv_file(filename):
+    word_to_index = {}
+    index_to_word = {}
+    matrix = np.zeros((1000, 1000))
+    
+    with open(filename, 'r') as file:
+        reader = csv.reader(file)
+        for i, row in enumerate(reader):
+            word, titles, count = row
+            if i < 1000:  # 确保只处理前1000个单词
+                if word not in word_to_index:
+                    word_to_index[word] = len(word_to_index)
+                    index_to_word[len(index_to_word)] = word
+                
+                # 遍历titles中的每个单词
+                for title in titles.split():
+                    if title in word_to_index:
+                        j = word_to_index[title]
+                        matrix[word_to_index[word], j] = 1
+    
+    return matrix, word_to_index, index_to_word
+
+# 主函数
+def main():
+    filename = 'data.csv'
+    matrix, word_to_index, index_to_word = read_csv_file(filename)
+    
+    # 打印矩阵
+    print("Matrix:")
+    print(matrix)
+    
+    # 打印单词到索引的映射
+    print("\nWord to Index:")
+    print(word_to_index)
+    
+    # 打印索引到单词的映射
+    print("\nIndex to Word:")
+    print(index_to_word)
+
+if __name__ == "__main__":
+    main()
