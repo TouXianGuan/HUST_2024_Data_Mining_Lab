@@ -32,3 +32,11 @@ def create_matrix(data):
             if data[j][0] in data[i][1]:
                 matrix[i][j] = 1
     return matrix
+
+def matrix_normalization(matrix):
+    ones_count = np.sum(matrix, axis=0)
+    norm_matrix = np.zeros_like(matrix)
+    non_zero_columns = ones_count != 0
+    norm_matrix[:, non_zero_columns] = matrix[:, non_zero_columns] / ones_count[non_zero_columns]
+    
+    return norm_matrix
