@@ -3,31 +3,24 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
 def read_data(filename):
-    with open('../data/anime.csv') as f:
+    data = []
+    with open(filename) as f:
         reader = csv.reader(f)
-        next(data)
-        for row in data:
-            samples.append(row)
-    samples = np.array([[float(x) for x in row] for row in samples])
+        header = next(reader) 
 
-    '''data_sorted = data.sort_values('Popularity', ascending=False)
+        for row in reader:
+            popularity = row[4]
+            score_10 = row[5]
+            score_9 = row[6]
+            score_8 = row[7]
+            score_7 = row[9]
+            score_6 = row[10]
+            score_5 = row[11]
+            score_4 = row[12]
+            score_3 = row[13]
+            score_2 = row[14]
 
-    third_rows = len(data_sorted) // 3
+            
+            data.append([popularity, score_10, score_9, score_8, score_7, score_6, score_5, score_4, score_3, score_2])
 
-    # 选择Popularity高、中、低三类，每类选择60个数据
-    high_data = data_sorted.head(60)
-    mid_data = data_sorted.iloc[third_rows:third_rows+60]
-    low_data = data_sorted.iloc[2*third_rows:2*third_rows+60]
-
-    #high_data['K'] = 'High'
-    #mid_data['K'] = 'Mid'
-    #low_data['K'] = 'Low'
-
-    scaler = MinMaxScaler()
-    high_data_normalized = pd.DataFrame(scaler.fit_transform(high_data.drop('K', axis=1)), columns=high_data.columns[:-1])
-    mid_data_normalized = pd.DataFrame(scaler.transform(mid_data.drop('K', axis=1)), columns=mid_data.columns[:-1])
-    low_data_normalized = pd.DataFrame(scaler.transform(low_data.drop('K', axis=1)), columns=low_data.columns[:-1])
-
-    normalized_data = pd.concat([high_data_normalized, mid_data_normalized, low_data_normalized])
-    data = pd.concat([high_data, mid_data, low_data])'''
     return data
