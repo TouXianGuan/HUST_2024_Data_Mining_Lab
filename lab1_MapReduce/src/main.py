@@ -1,5 +1,6 @@
 import os
 import time
+import json
 import shutil
 from map import create_map_threads
 from combine import create_combine_threads
@@ -20,7 +21,10 @@ if __name__ == "__main__":
         shutil.rmtree('../result')
     os.makedirs('../result')
 
-    words_set = set(open('../data/words.txt', 'r').read().split())
+    words_set = open('../data/words.txt', 'r').read().split('\n')
+    
+    with open('../tmp/words_set.json', 'w') as file:
+        json.dump(words_set, file)
 
     map_threads = create_map_threads(words_set)
     for t in map_threads:

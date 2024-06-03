@@ -3,7 +3,7 @@ from pagerank import pagerank_complex
 from process import read_data, create_matrix, matrix_normalization
 
 if __name__ == "__main__":
-    data = read_data('../data/data')
+    data = read_data('../data/keyword_link.txt')
 
     M = matrix_normalization(create_matrix(data))
     with open('../tmp/M.csv', 'w', encoding='utf-8') as f:
