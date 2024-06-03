@@ -6,9 +6,18 @@ def read_data(filename):
     
     data = []
     for line in lines:
-        line = line.strip()
-        word, value = line.split(': ')
-        titles = value.replace('\'','').strip("{}").split(',')
+        parts = line.strip().split(', ')
+        word = parts[0]
+        if len(parts) == 3:
+            titles = parts[1].replace('(', '').replace(')', '')
+        elif len(parts) == 4:
+            titles = []
+            titles.insert(0, parts[1].replace('(', ''))
+            titles.insert(1, parts[2].replace(')', ''))
+        else:
+            titles = parts[2:-2]
+            titles.insert(0, parts[1].replace('(', ''))
+            titles.append(parts[-2].replace(')', ''))
 
         data.append((word, titles))
     
