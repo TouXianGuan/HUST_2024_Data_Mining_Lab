@@ -1,6 +1,5 @@
 import csv
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
 
 def read_data(filename):
     data = []
@@ -68,7 +67,7 @@ def select_data(data):
     return np.matrix(np.array(high_data + middle_data + low_data))
 
 def norm_data(data):
-    column_sums = np.sum(data, axis=0)
+    column_sums = np.amax(data, axis=0)
     norm_data = data / column_sums
 
     return norm_data
