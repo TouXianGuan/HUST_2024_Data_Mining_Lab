@@ -1,9 +1,9 @@
 import json
 from process import read_data
-from apriori import generate_C1, generate_Lk, generate_Ck_next
+from apriori import generate_C1, generate_Lk, generate_Ck_next, Ck_support, association_rules
 
 if __name__ == "__main__":
-    data = read_data('../data/data')
+    data = read_data('../data/keyword_link.txt')
     with open('../tmp/data.json', 'w') as file:
         json.dump(data, file)
 
@@ -46,3 +46,5 @@ if __name__ == "__main__":
     l4_list = [list(item) for item in l4]
     with open('../tmp/L4.json', 'w') as file:
         json.dump(l4_list, file)
+
+    
