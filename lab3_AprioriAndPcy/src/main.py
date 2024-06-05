@@ -12,30 +12,57 @@ if __name__ == "__main__":
     with open('../tmp/C1.json', 'w') as file:
         json.dump(c1_list, file)
 
+    c1_count = Ck_support(data, c1)
+    c1_count_dict = {str(k).replace('frozenset(', '').replace(')', ''): v for k, v in c1_count.items()}
+    with open('../tmp/C1_count.json', 'w') as file:
+        json.dump(c1_count_dict, file)
+
     l1, l1_count = generate_Lk(data, c1, 0.15)
     l1_list = [list(item) for item in l1]
+    l1_count_dict = {str(k).replace('frozenset(', '').replace(')', ''): v for k, v in l1_count.items()}
     with open('../tmp/L1.json', 'w') as file:
         json.dump(l1_list, file)
+    with open('../result/L1_count.json', 'w') as file:
+        json.dump(l1_count_dict, file)
+    print('len_L1:', len(l1))
     
     c2 = generate_Ck_next(l1, 2)
     c2_list = [list(item) for item in c2]
     with open('../tmp/C2.json', 'w') as file:
         json.dump(c2_list, file)
 
+    c2_count = Ck_support(data, c2)
+    c2_count_dict = {str(k).replace('frozenset(', '').replace(')', ''): v for k, v in c2_count.items()}
+    with open('../tmp/C2_count.json', 'w') as file:
+        json.dump(c2_count_dict, file)
+
     l2, l2_count = generate_Lk(data, c2, 0.15)
     l2_list = [list(item) for item in l2]
+    l2_count_dict = {str(k).replace('frozenset(', '').replace(')', ''): v for k, v in l2_count.items()}
     with open('../tmp/L2.json', 'w') as file:
         json.dump(l2_list, file)
+    with open('../result/L2_count.json', 'w') as file:
+        json.dump(l2_count_dict, file)
+    print('len_L2:', len(l2))
     
     c3 = generate_Ck_next(l2, 3)
     c3_list = [list(item) for item in c3]
     with open('../tmp/C3.json', 'w') as file:
         json.dump(c3_list, file)
 
+    c3_count = Ck_support(data, c3)
+    c3_count_dict = {str(k).replace('frozenset(', '').replace(')', ''): v for k, v in c3_count.items()}
+    with open('../tmp/C3_count.json', 'w') as file:
+        json.dump(c3_count_dict, file)
+
     l3, l3_count = generate_Lk(data, c3, 0.15)
     l3_list = [list(item) for item in l3]
+    l3_count_dict = {str(k).replace('frozenset(', '').replace(')', ''): v for k, v in l3_count.items()}
     with open('../tmp/L3.json', 'w') as file:
         json.dump(l3_list, file)
+    with open('../result/L3_count.json', 'w') as file:
+        json.dump(l3_count_dict, file)
+    print('len_L3:', len(l3))
 
     c4 = generate_Ck_next(l3, 4)
     c4_list = [list(item) for item in c4]
