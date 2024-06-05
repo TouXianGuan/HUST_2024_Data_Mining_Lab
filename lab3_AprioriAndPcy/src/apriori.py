@@ -20,7 +20,7 @@ def generate_Lk(data, Ck, min_support):
                     item_count[item] = 1
 
     for k, v in item_count.items():
-        support = v / len(data)
+        support = v / 1000
         if support >= min_support:
             Lk.add(k)
             frequent_item_count[k] = support
@@ -36,3 +36,34 @@ def generate_Ck_next(Lk, k):
                 Ck_next.add(s)
     
     return Ck_next
+
+def Ck_support(data, Ck):
+    item_count = {}
+
+    for basket in data:
+        for item in Ck:
+            if item.issubset(basket):
+                if item in item_count:
+                    item_count[item] = item_count[item] + 1
+                else:
+                    item_count[item] = 1
+
+    for k, v in item_count.items():
+        support = v / 1000
+        item_count[k] = support
+
+    return item_count
+
+def association_rules(c1, Lk_count, ck_next_count, min_confidence):
+    rules = dict()
+
+    for k, v in Lk_count.items():
+        for item in c1:
+            if not item.issubset(k):
+                s = item | k
+                if s in ck_next_count:
+                    confidence = ck_next_count[s] / v
+                    if confidence >= min_confidence:
+                        rules[(k, item)] = confidence
+
+    return rules
